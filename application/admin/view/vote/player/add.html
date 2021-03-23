@@ -1,0 +1,103 @@
+<style type="text/css">
+    #schedulepicker {
+        padding-top:7px;
+    }
+</style>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label for="subject" class="control-label col-xs-12 col-sm-2">{:__('Subject')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select id="subject" data-rule="required" class="form-control selectpicker show-tick" name="row[subject_id]" data-live-search="true">
+                {foreach name="subject" item="vo"}
+                <option value="{$vo.id}" {in name="vo.id" value="$row.id"}selected{/in}>{$vo.title}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label  class="control-label col-xs-12 col-sm-2">{:__('User')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="sp_container">
+                <input id="c-user_id" placeholder="支持模糊搜索" data-rule="required" data-source="user/index" data-field="nickname" class="form-control selectpage sp_input" name="row[user_id]" type="text" value="{$row.user_id}" autocomplete="off">
+                <div class="sp_button" title="关闭 (Tab键)"><span class="sp_caret"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="number" class="control-label col-xs-12 col-sm-2">{:__('Number')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control" id="number" name="row[number]" value="{$row.number}" data-rule="required" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="nickname" class="control-label col-xs-12 col-sm-2">{:__('Nickname')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control" id="nickname" name="row[nickname]" value="{$row.nickname}" data-rule="required" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="intro" class="control-label col-xs-12 col-sm-2">{:__('Intro')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea class="form-control" id="intro" name="row[intro]" rows="5" data-rule="required">{$row.intro}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="c-thumb" class="control-label col-xs-12 col-sm-2">{:__('Thumb')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="form-inline">
+                <input id="c-thumb" class="form-control" size="50" name="row[thumb]" type="hidden" value="{$row.thumb}">
+                <span><button id="plupload-image" class="btn btn-danger plupload" data-input-id="c-thumb" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-preview-id="p-thumb"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-multiple="false" data-mimetype="image/*" data-input-id="c-thumb"><i class="fa fa-list-ul"></i> {:__('Choose')}</button></span>
+                <ul class="row list-inline plupload-preview" id="p-thumb"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="container" class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-9">
+            <script id="container" name="row[content]" type="text/plain">{$row.content}</script>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="votes" class="control-label col-xs-12 col-sm-2">{:__('Votes')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control" id="votes" name="row[votes]" value="{$row.votes}" data-rule="required" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="views" class="control-label col-xs-12 col-sm-2">{:__('Views')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control" id="views" name="row[views]" value="{$row.views}" data-rule="required" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="votetime" class="control-label col-xs-12 col-sm-2">{:__('VoteTime')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm" id="votetime" name="row[votetime]" value="{$row.votetime|datetime='Y-m-d H:i:s'}" data-rule="datetime" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[status]', ['0'=>__('InValid'),'1'=>__('Valid')])}
+        </div>
+    </div>
+
+    <div class="form-group hide layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="button" class="btn btn-default btn-embossed" onClick="closeLayerWin(this)">{:__('Close')}</button>
+        </div>
+    </div>
+
+</form>

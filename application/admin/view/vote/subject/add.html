@@ -1,0 +1,174 @@
+<style type="text/css">
+    #schedulepicker {
+        padding-top:7px;
+    }
+</style>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <h3 class="box-title">项目设置</h3>
+            </div>
+            <div class="form-group">
+                <label for="community_code" class="control-label col-xs-12 col-sm-2">{:__('Community')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <select id="community_code" data-rule="required" class="form-control selectpicker show-tick" name="row[community_code]" data-live-search="true">
+                        {foreach name="community" item="vo"}
+                        <option value="{$vo.code}" {in name="vo.code" value="$row.community_code"}selected{/in}>{$vo.name}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="title" name="row[title]" value="{$row.title}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-xs-12 col-sm-2">{:__('Member')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" name="member" value="{$admin.nickname}" readonly/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="intro" class="control-label col-xs-12 col-sm-2">{:__('Intro')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <textarea class="form-control" id="intro" name="row[intro]" rows="5" data-rule="required">{$row.intro}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="c-thumb" class="control-label col-xs-12 col-sm-2">{:__('Thumb')}:</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-inline">
+                        <input id="c-thumb" class="form-control" size="50" name="row[thumb]" type="hidden" value="{$row.thumb}">
+                        <span><button id="plupload-image" class="btn btn-danger plupload" data-input-id="c-thumb" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-preview-id="p-thumb"><i class="fa fa-upload"></i> {:__('Upload')}</button></span>
+                        <span><button type="button" id="fachoose-image" class="btn btn-primary fachoose" data-multiple="true" data-mimetype="image/*" data-input-id="c-thumb"><i class="fa fa-list-ul"></i> {:__('Choose')}</button></span>
+                        <ul class="row list-inline plupload-preview" id="p-thumb"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="container" class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+                <div class="col-xs-12 col-sm-9">
+                    <script id="container" name="row[content]" type="text/plain">{$row.content}</script>
+                </div>
+            </div>
+            <div class="form-group"></div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">统计数据</h3>
+            </div>
+            <div class="form-group">
+                <label for="players" class="control-label col-xs-12 col-sm-3">{:__('Players')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="players" name="row[players]" value="{$row.players}" data-rule="required" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="votes" class="control-label col-xs-12 col-sm-3">{:__('Votes')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="votes" name="row[votes]" value="{$row.votes}" data-rule="required" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="views" class="control-label col-xs-12 col-sm-3">{:__('Views')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="views" name="row[views]" value="{$row.views}" data-rule="required" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="voters" class="control-label col-xs-12 col-sm-3">{:__('Voters')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="voters" name="row[voters]" value="{$row.voters}" data-rule="required" />
+                </div>
+            </div>
+            <div class="form-group"></div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="box box-danger">
+            <div class="box-header">
+                <h3 class="box-title">限制设定</h3>
+            </div>
+            <div class="form-group">
+                <label for="begin_time" class="control-label col-xs-12 col-sm-3">{:__('BeginTime')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm" id="begin_time" name="row[begin_time]" value="{$row.begin_time|datetime='Y-m-d H:i'}" data-rule="datetime" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="end_time" class="control-label col-xs-12 col-sm-3">{:__('EndTime')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control datetimepicker" data-date-format="YYYY-MM-DD HH:mm" id="end_time" name="row[end_time]" value="{$row.end_time|datetime='Y-m-d H:i'}" data-rule="datetime" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pervoteplayers" class="control-label col-xs-12 col-sm-3">{:__('Pervoteplayers')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="pervoteplayers" name="row[pervoteplayers]" value="{$row.pervoteplayers}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pervotenums" class="control-label col-xs-12 col-sm-3">{:__('Pervotenums')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="pervotenums" name="row[pervotenums]" value="{$row.pervotenums}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pervotelimit" class="control-label col-xs-12 col-sm-3">{:__('Pervotelimit')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="pervotelimit" name="row[pervotelimit]" value="{$row.pervotelimit}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="maxvoteplayers" class="control-label col-xs-12 col-sm-3">{:__('Maxvoteplayers')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="maxvoteplayers" name="row[maxvoteplayers]" value="{$row.maxvoteplayers}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="maxvotenums" class="control-label col-xs-12 col-sm-3">{:__('Maxvotenums')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="maxvotenums" name="row[maxvotenums]" value="{$row.maxvotenums}" data-rule="required" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="maxvotelimit" class="control-label col-xs-12 col-sm-3">{:__('Maxvotelimit')}:</label>
+                <div class="col-xs-12 col-sm-6">
+                    <input type="text" class="form-control" id="maxvotelimit" name="row[maxvotelimit]" value="{$row.maxvotelimit}" data-rule="required" />
+                </div>
+            </div>
+            <div class="form-group"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Status')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[status]', ['0'=>__('Hidden'),'1'=>__('Normal'),'2'=>__('Expired')],$row['status'])}
+        </div>
+    </div>
+    <div class="form-group hide layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
+            <button type="button" class="btn btn-default btn-embossed" onClick="closeLayerWin(this)">{:__('Close')}</button>
+        </div>
+    </div>
+
+</form>

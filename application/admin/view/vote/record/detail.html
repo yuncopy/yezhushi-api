@@ -1,0 +1,56 @@
+<style type="text/css">
+    #schedulepicker {
+        padding-top:7px;
+    }
+</style>
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    <div class="form-group">
+        <label for="subject" class="control-label col-xs-12 col-sm-2">{:__('Subject')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select id="subject" data-rule="required" class="form-control selectpicker show-tick" name="row[id]" data-live-search="true">
+                {foreach name="subject" item="vo"}
+                <option value="{$vo.id}" {in name="vo.id" value="$row.id"}selected{/in}>{$vo.title}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <label  class="control-label col-xs-12 col-sm-2">{:__('Player')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="sp_container">
+                <input id="c-player_id" data-rule="" data-source="vote/player/index" data-field="nickname" class="form-control selectpage sp_input" name="row[player_id]" type="text" value="{$row.player_id}" autocomplete="off">
+                <div class="sp_button" title="关闭 (Tab键)"><span class="sp_caret"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label  class="control-label col-xs-12 col-sm-2">{:__('User')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="sp_container">
+                <input id="c-user_id" data-rule="" data-source="user/index" data-field="nickname" class="form-control selectpage sp_input" name="row[user_id]" type="text" value="{$row.user_id}" autocomplete="off">
+                <div class="sp_button" title="关闭 (Tab键)"><span class="sp_caret"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="ipaddr" class="control-label col-xs-12 col-sm-2">{:__('IpAddr')}:</label>
+        <div class="col-xs-12 col-sm-6">
+            <input type="text" class="form-control" id="ipaddr" name="row[ipaddr]" value="{$row.ipaddr}" data-rule="required" />
+        </div>
+    </div>
+
+    <div class="form-group hide layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="button" class="btn btn-default btn-embossed" onClick="closeLayerWin(this)">{:__('Close')}</button>
+        </div>
+    </div>
+
+</form>

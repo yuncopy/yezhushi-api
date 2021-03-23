@@ -5,7 +5,7 @@
 .idea
 composer.lock
 *.log
-*.sql
+/data/*.sql
 *.css.map
 !.gitkeep
 .env
