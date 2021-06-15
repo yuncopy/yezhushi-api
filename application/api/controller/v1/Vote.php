@@ -70,7 +70,10 @@ class Vote extends BaseApi {
         if($result){
             $data = collection($result)->each(function ($item){
                 $array = explode(',', $item->thumb);
-                return $item->thumbs = isset($array[0]) ? $array[0] : "";
+                $thumbs = isset($array[0]) ? $array[0] : "";
+                if($thumbs){
+                    return $item->thumbs = $thumbs;
+                }
             });
         }
         return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
