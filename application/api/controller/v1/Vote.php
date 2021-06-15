@@ -117,9 +117,11 @@ class Vote extends BaseApi {
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
         $status = ['in', [1, 2]];
         $result = $this->subjectModel->subjectList($status,['current'=>$currPage,'size'=>$pageSize]);
-        collection($result['result'])->each(function ($item){
-            return $item->thumbs  =current(explode(',', $item->thumb));
-        });
+        if($result){
+            collection($result['result'])->each(function ($item){
+                return $item->thumbs  =current(explode(',', $item->thumb));
+            });
+        }
         return parent::response($result,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
     }
 
@@ -144,11 +146,13 @@ class Vote extends BaseApi {
         $status = [1,2];
         $field = ['id','title','thumb','intro','content','players','votes','views','voters'];
         $result = $this->subjectModel->subjectPlayerList($status,['current'=>$currPage,'size'=>$pageSize],['id'=>$subjectId],$field);
-        $data = collection($result)->each(function ($item){
-           $item->thumbs =  explode(',', $item->thumb);
-           $item->thumb =  current($item->thumbs);
-        });
-        return parent::response($data[0],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        if($result){
+            $data = collection($result)->each(function ($item){
+                $item->thumbs =  explode(',', $item->thumb);
+                $item->thumb =  current($item->thumbs);
+            });
+        }
+        return parent::response(isset($data[0]) ? $data[0] : [],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
     }
 
 
