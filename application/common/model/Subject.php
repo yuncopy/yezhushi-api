@@ -41,7 +41,7 @@ class Subject extends Model {
      * @throws \think\exception\DbException
      */
     public function getDataList($status=[],$limit) {
-        $result = $this->whereIn(['status'=>$status])
+        $result = $this->where(['status'=>$status])
             ->field('id,players,votes,title,thumb,intro')
             ->order(['intop'=>'desc','status'=>'asc',])
             ->limit($limit)
@@ -78,7 +78,7 @@ class Subject extends Model {
             $query->field(['id','subject_id','number','nickname','intro','content','thumb','views','votes','cur_order'])
                 ->where(['status'=>1])->order(['number'=>'asc'])->page($current,$size);
         }])->where(function ($query) use($status,$where){
-             $query->whereIn(['status'=>$status]);
+             $query->where(['status'=>$status]);
              if($where) $query->where($where);
         })->field($field)->order(['intop'=>'desc','status'=>'asc',])
             ->limit(1)
