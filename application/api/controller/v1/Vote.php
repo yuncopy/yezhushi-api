@@ -63,13 +63,16 @@ class Vote extends BaseApi {
      * @throws \think\exception\DbException
      */
     public function getSubject(){
-        $status = [1,2];
+        $status = ['in', [1,2]];
         $limit = 4;
         $result = $this->subjectModel->getDataList($status,$limit);
-        $data = collection($result)->each(function ($item){
-            $array = explode(',', $item->thumb);
-            return $item->thumbs = isset($array[0]) ? $array[0] : "";
-        });
+        $data = [];
+        if($result){
+            $data = collection($result)->each(function ($item){
+                $array = explode(',', $item->thumb);
+                return $item->thumbs = isset($array[0]) ? $array[0] : "";
+            });
+        }
         return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
     }
 
@@ -89,12 +92,14 @@ class Vote extends BaseApi {
         $prams  = $request->post();
         $currPage = isset($prams['p']) ? intval($prams['p']) : 1;
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
-        $status = [1,2];
+        $status = ['in', [1, 2]];
         $result = $this->subjectModel->subjectPlayerList($status,['current'=>$currPage,'size'=>$pageSize]);
-        $data = collection($result)->each(function ($item){
-            return $item->thumbs =  explode(',', $item->thumb);
-        });
-        return parent::response($data[0],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        if($result){
+            $data = collection($result)->each(function ($item){
+                return $item->thumbs =  explode(',', $item->thumb);
+            });
+        }
+        return parent::response(isset($data[0]) ? $data[0] :[],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
     }
 
 
@@ -111,7 +116,7 @@ class Vote extends BaseApi {
         $prams  = $request->post();
         $currPage = isset($prams['p']) ? intval($prams['p']) : 1;
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
-        $status = [1,2];
+        $status = ['in', [1, 2]];
         $result = $this->subjectModel->subjectList($status,['current'=>$currPage,'size'=>$pageSize]);
         collection($result['result'])->each(function ($item){
             return $item->thumbs  =current(explode(',', $item->thumb));

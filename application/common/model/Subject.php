@@ -114,10 +114,10 @@ class Subject extends Model {
         $size = $page['size'];
 
         //记录数
-        $count = $this->whereIn(['status'=>$status])->order(['intop'=>'desc','status'=>'asc'])->count();
+        $count = $this->where(['status'=>$status])->order(['intop'=>'desc','status'=>'asc'])->count();
         //查询结果
         $query1= $this->field(['id','title','thumb','players','votes','voters','views'])
-            ->whereIn(['status'=>$status]);
+            ->where(['status'=>$status]);
         $result= $query1->page($current, $size)->select();
 
         //!empty($where)  && var_dump($where,$this->getLastSql());
