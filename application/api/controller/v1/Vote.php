@@ -98,7 +98,9 @@ class Vote extends BaseApi {
         $result = $this->subjectModel->subjectPlayerList($status,['current'=>$currPage,'size'=>$pageSize]);
         if($result){
             $data = collection($result)->each(function ($item){
-                return $item->thumbs =  explode(',', $item->thumb);
+                if(!empty($item->thumb)){
+                    return $item->thumbs =  explode(',', $item->thumb);
+                }
             });
         }
         return parent::response(isset($data[0]) ? $data[0] :[],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
