@@ -88,7 +88,6 @@ class Vote extends BaseApi {
      * @throws \think\exception\DbException
      */
     public function getSubjectPlayer(Request $request){
-
         $prams  = $request->post();
         $currPage = isset($prams['p']) ? intval($prams['p']) : 1;
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
