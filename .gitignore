@@ -2,6 +2,7 @@
 /runtime/*
 /application/admin/command/Install/*.lock
 /public/uploads/*
+/public/upload/ueditor/*
 .idea
 composer.lock
 *.log
