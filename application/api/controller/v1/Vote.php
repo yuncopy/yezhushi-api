@@ -146,7 +146,7 @@ class Vote extends BaseApi {
         $currPage = isset($prams['p']) ? intval($prams['p']) : 1;
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
         $subjectId = isset($prams['subjectid']) ? ($prams['subjectid']) : 0;
-        $status = [1,2];
+        $status = ['in', [1, 2]];
         $field = ['id','title','thumb','intro','content','players','votes','views','voters'];
         $result = $this->subjectModel->subjectPlayerList($status,['current'=>$currPage,'size'=>$pageSize],['id'=>$subjectId],$field);
         if($result){
