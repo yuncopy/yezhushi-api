@@ -11,11 +11,11 @@ namespace app\api\controller\general;
 
 
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\Friendlylink as FriendlyLinkModel;
 
-class FriendlyLink extends BaseApi {
+class FriendlyLink extends WxsApi {
 
     private $friendlyLinkModel = null;
     protected $allowMethod = array('get');

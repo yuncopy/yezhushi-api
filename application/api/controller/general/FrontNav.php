@@ -11,12 +11,12 @@ namespace app\api\controller\general;
 
 
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\FrontNav as FrontNavModel;
 use app\common\model\FrontNavCate as FrontNavCateModel;
 
-class FrontNav extends BaseApi{
+class FrontNav extends WxsApi{
 
     private $frontNavModel = null;
     private $frontNavCateModel = null;

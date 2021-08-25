@@ -9,7 +9,7 @@
 
 namespace app\api\controller\v1;
 
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\library\UserToken;
 use app\api\validate\CodeValidate;
 use app\api\validate\UserValidate;
@@ -18,7 +18,7 @@ use app\common\model\Users as UsersModel;
 use app\api\exception\ParameterException;
 use think\Request;
 
-class User extends BaseApi {
+class User extends WxsApi {
 
     private $userModel = null;
     protected $allowMethod = array('get','post');

@@ -9,7 +9,7 @@
 
 namespace app\api\controller\v1;
 
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\library\ConstStatus;
 use app\common\model\Subject as SubjectModel;
 use app\common\model\Slide as SlideModel;
@@ -18,7 +18,7 @@ use app\common\model\Record as recordModel;
 
 use think\Request;
 
-class Vote extends BaseApi {
+class Vote extends WxsApi {
 
 
     protected $allowMethod = array('get','post');
@@ -94,16 +94,14 @@ class Vote extends BaseApi {
         $prams  = $request->post();
         $currPage = isset($prams['p']) ? intval($prams['p']) : 1;
         $pageSize = isset($prams['size']) ? intval($prams['size']) : 6;
-        $status = ['in', [1, 2]];
+        $status = ['in', [1,2]];
         $result = $this->subjectModel->subjectPlayerList($status,['current'=>$currPage,'size'=>$pageSize]);
         if($result){
             $data = collection($result)->each(function ($item){
-                if(!empty($item->thumb)){
-                    return $item->thumbs =  explode(',', $item->thumb);
-                }
+                return $item->thumbs =  explode(',', $item->thumb);
             });
         }
-        return parent::response(isset($data[0]) ? $data[0] :[],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return parent::response(!empty($data) ? current($data) :[],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
     }
 
 

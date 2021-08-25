@@ -12,7 +12,7 @@ namespace app\api\controller\v1;
 use think\Request;
 use think\Db;
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\validate\UserAddressValidate;
 use app\api\validate\AddressIdValidate;
 use app\api\exception\UserException;
@@ -21,7 +21,7 @@ use app\common\model\UserAddress as AddressModel;
 use app\common\model\Users as userModel;
 
 
-class Address extends BaseApi {
+class Address extends WxsApi {
 
     private $addressModel = null;
     private $userModel = null;

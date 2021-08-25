@@ -9,7 +9,7 @@
 
 namespace app\api\controller\v1;
 
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\library\UserToken;
 use app\api\validate\CodeValidate;
 use app\api\validate\UserValidate;
@@ -25,7 +25,7 @@ use app\common\model\Subject as SubjectModel;
 
 use think\Request;
 
-class Index extends BaseApi {
+class Index extends WxsApi {
 
     private $userModel = null;
     private $articleModel = null;

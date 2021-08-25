@@ -11,6 +11,28 @@ namespace app\api\library;
 
 class ConstStatus {
 
+
+    //公共状态
+    const Msg_001 = '服务器内部错误，请联系系统管理员～～';
+    private static $setMap = [
+        //1xxx
+        1000 => '请求成功',
+    ];
+
+    /**
+     * Notes: 获取提示信息
+     * User: jackin.chen
+     * Date: 2021/7/31 3:13 下午
+     * function: getMsg
+     * @param $status
+     * @return string
+     * @static
+     */
+    public  static function getMsg($status){
+        return !empty(self::$setMap[$status]) ? self::$setMap[$status] : self::Msg_001;
+    }
+
+
     //定义返回键名
     const RESPONSE_STATUS = 'status';
     const RESPONSE_CODE = 'code';
@@ -19,9 +41,7 @@ class ConstStatus {
     const RESPONSE_DATA = 'data';
 
 
-    //公共状态
-    const STATUS_500 = 500;
-    const DESC_500 = '服务器内部错误，请联系系统管理员～～';
+
 
 
     const CODE_99999 = 99999;

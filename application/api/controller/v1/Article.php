@@ -10,13 +10,13 @@
 namespace app\api\controller\v1;
 
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\api\validate\ArticleValidate;
 use app\common\model\Article as ArticleModel;
 
 
-class Article extends BaseApi {
+class Article extends WxsApi {
 
     private $articleModel = null;
     protected $allowMethod = array('get');

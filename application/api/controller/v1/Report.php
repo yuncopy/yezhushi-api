@@ -11,12 +11,12 @@ namespace app\api\controller\v1;
 
 use think\Request;
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\validate\ReportValidate;
 use app\common\model\Report as ReportModel;
 
 
-class Report extends BaseApi {
+class Report extends WxsApi {
 
     private $reportModel = null;
     protected $allowMethod = array('get','post');

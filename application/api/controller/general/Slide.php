@@ -10,13 +10,13 @@
 namespace app\api\controller\general;
 
 
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use app\api\library\ConstStatus;
 use think\Request;
 use app\common\model\Slide as SlideModel;
 use app\common\model\SlideCategory as SlideCateModel;
 
-class Slide extends BaseApi {
+class Slide extends WxsApi {
 
     private $slideModel = null;
     private $slideCateModel = null;

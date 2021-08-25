@@ -11,11 +11,11 @@ namespace app\api\controller\general;
 
 
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\Category as CategoryModel;
 
-class Category extends BaseApi {
+class Category extends WxsApi {
 
     private $categoryModel = null;
     protected $allowMethod = array('get');

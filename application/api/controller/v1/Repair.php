@@ -9,7 +9,7 @@
 
 namespace app\api\controller\v1;
 
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\Category;
 use app\common\model\Community;
@@ -19,7 +19,7 @@ use app\api\library\ConstStatus;
 use app\api\validate\RepairValidate;
 use app\api\validate\RepairOrderIdValidate;
 
-class Repair extends BaseApi {
+class Repair extends WxsApi {
 
     protected $allowMethod = array('get','post');
 

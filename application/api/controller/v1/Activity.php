@@ -10,12 +10,12 @@
 namespace app\api\controller\v1;
 
 use app\api\library\ConstStatus;
-use app\common\controller\BaseApi;
+use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\Activity as ActivityModel;
 
 
-class Activity extends BaseApi {
+class Activity extends WxsApi {
 
     private $activityModel = null;
     protected $allowMethod = array('get','post');

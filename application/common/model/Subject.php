@@ -82,7 +82,9 @@ class Subject extends Model {
              if($where) $query->where($where);
         })->field($field)->order(['intop'=>'desc','status'=>'asc',])
             ->limit(1)
-            ->select();
+            ->select()->toArray();
+
+        var_dump($result);exit;
 
         //\Think\Log::record(var_export($result,true),'notice');
 
@@ -90,8 +92,10 @@ class Subject extends Model {
         $count = $this->player()->where(['subject_id'=>$result[0]->id,'status'=>1])->count();
         //处理总页数
         $totalPage = ceil($count/$size);//总页数
-        $result[0]->currPage = ($current > $totalPage ? intval($totalPage) : $current);
-        $result[0]->totalPage = $totalPage;
+        if($result){
+            $result[0]->currPage = ($current > $totalPage ? intval($totalPage) : $current);
+            $result[0]->totalPage = $totalPage;
+        }
         return  $result;
     }
 
