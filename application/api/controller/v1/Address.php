@@ -34,18 +34,13 @@ class Address extends WxsApi {
     }
 
 
-
     /**
      * Notes: 获取用户地址
      * User: jackin.chen
-     * Date: 2020/6/25 下午8:11
+     * Date: 2021/10/19 7:33 下午
      * function: getUserAddress
-     * @return false|\PDOStatement|string|\think\Collection
-     * @throws UserException
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @param Request $request
+     * @return \think\response\Json
      */
     public function getUserAddress(Request $request){
 
@@ -81,16 +76,16 @@ class Address extends WxsApi {
                 'userPhone'=> $address["phone"]
             ];
         }
-        return parent::response($addressData,ConstStatus::CODE_SUCCESS);
+        return self::json2($addressData);
     }
 
     /**
      * Notes: 设置用户默认地址
      * User: jackin.chen
-     * Date: 2020/6/26 上午1:28
+     * Date: 2021/10/19 7:34 下午
      * function: setDefaultAddress
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
+     * @return \think\response\Json
      */
     public function setDefaultAddress(Request $request){
 
@@ -122,22 +117,17 @@ class Address extends WxsApi {
             ])->update(['is_default'=>1,'update_time'=>time()]);
         });
         $code  = $res ? ConstStatus::CODE_SUCCESS : ConstStatus::CODE_ERROR;
-        return parent::response(['res'=>$res],$code);
+        return self::json2(['res'=>$res],$code);
     }
 
 
     /**
      * Notes: 删除用户地址
      * User: jackin.chen
-     * Date: 2020/6/26 上午2:01
+     * Date: 2021/10/19 7:34 下午
      * function: deleteAddress
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws ParameterException
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function deleteAddress(Request $request){
 
@@ -152,7 +142,7 @@ class Address extends WxsApi {
             $res = $address->id;
         }
         $code  = $res ? ConstStatus::CODE_SUCCESS : ConstStatus::CODE_ERROR;
-        return parent::response(['res'=>$res],$code);
+        return self::json2(['res'=>$res],$code);
     }
 
 
@@ -205,7 +195,7 @@ class Address extends WxsApi {
                 ]);
             }
             $res = $userAddress->save($params);
-            return parent::response(['res'=>$res],ConstStatus::CODE_SUCCESS);
+            return self::json2(['res'=>$res]);
         }else{
             //获取用户地址模型
             $userAddress = $user->address;
@@ -219,7 +209,7 @@ class Address extends WxsApi {
             }
             // 关联属性不存在，则新建
             $query = $user->address()->save($params);
-            return parent::response(['res'=>$query->id],ConstStatus::CODE_SUCCESS);
+            return self::json2(['res'=>$query->id]);
         }
     }
 

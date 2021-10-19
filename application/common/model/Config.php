@@ -72,4 +72,15 @@ class Config extends Model
         return $upload;
     }
 
+    /**
+     * Notes: 获取配置信息
+     * User: jackin.chen
+     * Date: 2021/8/26 10:59 上午
+     * function: getConfig
+     * @return bool|\PDOStatement|string|\think\Collection
+     */
+    public function getConfigInfo(){
+        return self::field('name,type,value')->where(['group'=>'system'])->select();
+    }
+
 }

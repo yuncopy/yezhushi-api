@@ -35,6 +35,11 @@ class Index extends WxsApi {
     private $subjectModel = null;
     protected $allowMethod = array('get','post');
 
+    /**
+     * 构造函数
+     * Index constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request) {
         parent::__construct($request);
         $this->userModel = new UsersModel();
@@ -49,12 +54,10 @@ class Index extends WxsApi {
     /**
      * Notes: 获取用户信息兑换token值
      * User: jackin.chen
-     * Date: 2020/6/6 下午9:47
+     * Date: 2021/10/19 7:28 下午
      * function: getToken
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \think\Exception
+     * @return mixed
      */
     public function getToken(Request $request) {
 
@@ -68,50 +71,39 @@ class Index extends WxsApi {
         $userInfo = $userCache ? json_decode($userCache,true) : [];
 
         //处理结果 todo处理网络异常
-        return parent::response([
+        return self::json2([
             'token' => $token,
             'userId'=> isset($userInfo['uid']) ? $userInfo['uid'] : 0
-        ],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        ]);
     }
 
 
     /**
      * Notes: 更新用户信息
      * User: jackin.chen
-     * Date: 2020/6/9 下午11:55
+     * Date: 2021/10/19 7:28 下午
      * function: modifyUser
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function modifyUser(Request $request){
-
         //验证器
         (new UserValidate())->doValidate();
-
         //获取参数
         $params = $request->param();
         $data = $this->userModel->modifyUser($params);
-
         //处理结果 todo处理网络异常
-        return parent::response([
-            'userId' => $data
-        ],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
-
+        return self::json2(['userId' => $data]);
     }
 
 
     /**
      * Notes: 获取文章分页数据
      * User: jackin.chen
-     * Date: 2020/6/11 下午10:32
+     * Date: 2021/10/19 7:27 下午
      * function: getArticleList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getArticleList(Request $request){
 
@@ -122,36 +114,30 @@ class Index extends WxsApi {
         $weight = isset($prams['weight']) ? intval($prams['weight']) : null;
         $data = $this->articleModel->pageList($currPage,$pageSize,$weight);
         //处理结果 todo处理网络异常
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
+
 
     /**
      * Notes: 获取轮播图
      * User: jackin.chen
-     * Date: 2021/2/4 下午3:38
+     * Date: 2021/10/19 7:25 下午
      * function: getBanner
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getBanner(){
         $data = $this->slideModel->getSlideList();
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
 
 
     /**
      * Notes: 获取报修列表
      * User: jackin.chen
-     * Date: 2020/6/26 下午11:49
+     * Date: 2021/10/19 7:29 下午
      * function: getRepairList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getRepairList(Request $request){
 
@@ -194,19 +180,17 @@ class Index extends WxsApi {
                ];
            }
         }
-        return parent::response($repairList,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($repairList);
     }
+
 
     /**
      * Notes: 查询搜索
      * User: jackin.chen
-     * Date: 2021/3/9 下午5:14
+     * Date: 2021/10/19 7:29 下午
      * function: searchAll
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function searchAll(Request $request){
         $params = $request->post();
@@ -222,7 +206,7 @@ class Index extends WxsApi {
                 $data = $this->articleModel->pageArticle($params);
                 break;
         }
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
 
 

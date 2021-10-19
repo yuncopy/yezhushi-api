@@ -15,8 +15,8 @@ class ConstStatus {
     //公共状态
     const Msg_001 = '服务器内部错误，请联系系统管理员～～';
     private static $setMap = [
-        //1xxx
-        1000 => '请求成功',
+        //1xxx 基础配置
+        10000 => '请求成功',
     ];
 
     /**
@@ -31,6 +31,11 @@ class ConstStatus {
     public  static function getMsg($status){
         return !empty(self::$setMap[$status]) ? self::$setMap[$status] : self::Msg_001;
     }
+
+
+
+
+
 
 
     //定义返回键名
@@ -49,7 +54,6 @@ class ConstStatus {
     const CODE_SUCCESS = 10000;
     const CODE_ERROR = 10001;
     const DESC_SUCCESS = '请求成功';
-    const DESC_ERROR = '请求异常';
     const DESC_CACHE = '服务器缓存内部错误';
     const DESC_USER = '用户不存在';
     const DESC_USER_ID = '参数中包含有非法的参数名user_id或者uid';

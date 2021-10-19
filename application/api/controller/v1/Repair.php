@@ -38,16 +38,12 @@ class Repair extends WxsApi {
         parent::__construct($request);
     }
 
-
     /**
-     * Notes:获取报修类型
+     * Notes: 获取报修类型
      * User: jackin.chen
-     * Date: 2020/6/26 下午1:10
+     * Date: 2021/10/19 7:36 下午
      * function: getRepairType
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getRepairType(){
 
@@ -64,57 +60,50 @@ class Repair extends WxsApi {
                 'repairName'=>$item
             ];
         }
+        return self::json2($repairType);
         //处理结果 todo处理网络异常
-        return parent::response($repairType,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
 
     }
 
     /**
-     * Notes: 获取所有小区
+     * Notes:获取所有小区
      * User: jackin.chen
-     * Date: 2020/6/13 上午10:04
+     * Date: 2021/10/19 7:37 下午
      * function: getEstateList
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getEstateList(){
-
         $list =  $this->communityModel->getCommunityList();
-        return parent::response($list,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($list);
 
     }
+
 
     /**
      * Notes: 执行文件上传需要权限验证
      * User: jackin.chen
-     * Date: 2020/6/26 下午5:51
+     * Date: 2021/10/19 7:37 下午
      * function: repairImage
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
+     * @return \think\response\Json
      */
     public function repairImage(Request $request){
         $file = $request->file('file');
         $upload = $this->fastUpload($file);
         $code = $upload['ret'] ? ConstStatus::CODE_ERROR :ConstStatus::CODE_SUCCESS;
-        return parent::response($upload,$code);
+        return self::json2($upload,$code);
+
     }
 
 
+
     /**
-     * Notes: 提交报修单
+     * Notes:提交报修单
      * User: jackin.chen
-     * Date: 2020/6/26 下午7:27
+     * Date: 2021/10/19 7:38 下午
      * function: submitRepairOrder
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function submitRepairOrder(Request $request){
 
@@ -160,21 +149,18 @@ class Repair extends WxsApi {
         ];
         $repair = $this->repairModel->save($data);
         $code  = $repair ? ConstStatus::CODE_SUCCESS : ConstStatus::CODE_ERROR;
-        return parent::response(['res'=>$repair],$code);
+        return self::json2(['res'=>$repair],$code);
+
     }
+
 
     /**
      * Notes: 确认维修
      * User: jackin.chen
-     * Date: 2020/6/27 下午1:28
+     * Date: 2021/10/19 7:38 下午
      * function: finishRepairOrder
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function  finishRepairOrder(Request $request){
 
@@ -193,21 +179,19 @@ class Repair extends WxsApi {
             $repair = $repairOrder->save();
         }
         $code  = $repair ? ConstStatus::CODE_SUCCESS : ConstStatus::CODE_ERROR;
-        return parent::response(['res'=>$repair],$code);
+
+        return self::json2(['res'=>$repair],$code);
     }
 
 
 
     /**
-     * Notes:获取报修列表
+     * Notes: 获取报修列表
      * User: jackin.chen
-     * Date: 2021/3/6 下午4:58
+     * Date: 2021/10/19 7:39 下午
      * function: getRepairList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getRepairList(Request $request){
 
@@ -225,7 +209,7 @@ class Repair extends WxsApi {
                 $item->thumb = current(explode(',',$item['thumb']));
             });
         }
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
 
 }

@@ -30,16 +30,14 @@ class Report extends WxsApi {
         return $this->belongsTo('Community','community_code','code');
     }
 
+
+
     /**
-     * Notes:获取当天到访记录
+     * Notes: 获取当天到访记录
      * User: jackin.chen
-     * Date: 2021/2/23 下午10:47
+     * Date: 2021/10/19 7:39 下午
      * function: getReport
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getReport(){
 
@@ -50,19 +48,18 @@ class Report extends WxsApi {
             ->whereTime('reporttime', 'between', [$start_time, $end_time])->find();
         $data = $user ? $user->visible(['addr','name','phone','visiter','temperature','health','addr','community.name']) :[];
 
-        return parent::response($data,ConstStatus::CODE_SUCCESS);
+        return self::json2($data);
     }
+
 
 
     /**
      * Notes: 保存上报信息
      * User: jackin.chen
-     * Date: 2021/2/23 下午8:14
+     * Date: 2021/10/19 7:40 下午
      * function: saveReport
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \app\api\exception\TokenException
+     * @return \think\response\Json
      */
     public function saveReport(Request $request){
 
@@ -88,7 +85,7 @@ class Report extends WxsApi {
             'reporttime'=>format_time(),
         ];
         $res = $this->reportModel->save($params);
-        return parent::response(['res'=>$res],ConstStatus::CODE_SUCCESS);
+        return self::json2(['res'=>$res]);
     }
 
 }

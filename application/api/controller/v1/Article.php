@@ -28,25 +28,20 @@ class Article extends WxsApi {
 
 
     /**
-     * Notes:获取文章详情
+     * Notes: 获取文章详情
      * User: jackin.chen
-     * Date: 2021/2/4 下午3:40
+     * Date: 2021/10/19 7:36 下午
      * function: read
      * @param Request $request
      * @param $id
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \think\Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function read(Request $request, $id) {
         //验证器
         (new ArticleValidate())->doValidate();
         //业务逻辑
         $result = $this->articleModel->getArticleInfo($id);
-        return parent::response($result,ConstStatus::CODE_SUCCESS);
+        return self::json2($result);
     }
 
 }

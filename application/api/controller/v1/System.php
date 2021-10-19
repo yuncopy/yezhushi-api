@@ -10,16 +10,18 @@
 namespace app\api\controller\v1;
 
 use think\Request;
-use app\api\library\ConstStatus;
 use app\common\library\CacheKey;
 use app\common\controller\WxsApi;
-use app\common\model\Config as ConfigModel;
 
 class System extends WxsApi {
 
     protected $allowMethod = array('get');
+
     //前置方法
-    protected $beforeActionList = [];
+    protected $beforeActionList = [
+
+
+    ];
 
     /**
      * Notes: 获取系统配置信息
@@ -30,21 +32,19 @@ class System extends WxsApi {
      * @return \think\response\Json
      */
     public function getInfo(Request $request) {
-
         //获取小程序配置信息
         $configList = $this->getOrSetCache(CacheKey::SYSTEM_INFO,function (){
-            $configModel = new ConfigModel();
-            return $configModel->field('name,type,value')->where(['group'=>'system'])->select();
+            return (new \app\common\model\Config)->getConfigInfo();
         });
         $result = [];
         foreach ($configList as  $item){
-            if($item['name'] == 'system_hot'){ //热词处理
+            if($item['name'] == 'system_hot'){ //热词处理成数组形式
                 $result[$item['name']] = explode(',',$item['value']);
             }else{
                 $result[$item['name']] = $item['value'];
             }
         }
-        return self::json2($result,1000);
+        return self::json2($result);
     }
 
 }

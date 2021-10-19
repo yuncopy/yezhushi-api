@@ -29,15 +29,14 @@ class User extends WxsApi {
     }
 
 
+
     /**
      * Notes: 获取用户信息兑换token值
      * User: jackin.chen
-     * Date: 2020/6/6 下午9:47
+     * Date: 2021/10/19 7:40 下午
      * function: getToken
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \think\Exception
+     * @return \think\response\Json
      */
     public function getToken(Request $request) {
 
@@ -48,19 +47,19 @@ class User extends WxsApi {
         $code  = $request->post('code');
         $token = (new UserToken($code))->getToken();
         //处理结果 todo处理网络异常
-        return parent::response([
+        return self::json2([
             'token' => $token,  //不对外暴露用户相关信息
-        ],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        ]);
     }
+
 
     /**
      * Notes: 验证TOKEN
      * User: jackin.chen
-     * Date: 2020/6/15 上午2:07
+     * Date: 2021/10/19 7:41 下午
      * function: verifyToken
      * @param string $token
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws ParameterException
+     * @return \think\response\Json
      */
     public function verifyToken($token='')
     {
@@ -71,21 +70,19 @@ class User extends WxsApi {
             ]);
         }
         $valid = (new UserToken())->verifyToken($token);
-        return parent::response([
+        return self::json2([
             'isValid' => $valid,  //不对外暴露用户相关信息
-        ],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        ]);
     }
+
 
     /**
      * Notes: 更新用户信息
      * User: jackin.chen
-     * Date: 2020/6/16 下午10:10
+     * Date: 2021/10/19 7:41 下午
      * function: modifyUser
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws ParameterException
-     * @throws \app\api\exception\TokenException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function modifyUser(Request $request){
 
@@ -99,9 +96,9 @@ class User extends WxsApi {
         $result = $this->userModel->modifyUser($params);
 
         //处理结果 todo处理网络异常
-        return parent::response([
-            'result' => $result
-        ],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2([
+            'result' => $result,  //不对外暴露用户相关信息
+        ]);
     }
 
 
@@ -119,7 +116,7 @@ class User extends WxsApi {
                 ['cnt'=>3],
             ]
         ];
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
 
 

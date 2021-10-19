@@ -36,31 +36,27 @@ class Vote extends WxsApi {
         $this->recordModel = new recordModel();
     }
 
+
     /**
      * Notes: 获取轮播图
      * User: jackin.chen
-     * Date: 2021/2/4 下午3:38
+     * Date: 2021/10/19 7:42 下午
      * function: getBanner
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getBanner(){
         $voteFlag = 'vote-swiper';
         $data = $this->slideModel->getSlideList($voteFlag);
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
+
 
     /**
      * Notes: 获取进行中项目
      * User: jackin.chen
-     * Date: 2021/2/27 下午5:12
+     * Date: 2021/10/19 7:42 下午
      * function: getSubject
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getSubject(){
         $status = ['in', [1,2]];
@@ -76,19 +72,18 @@ class Vote extends WxsApi {
                 }
             });
         }
-        return parent::response($data,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($data);
     }
+
 
 
     /**
      * Notes: 查询投票选手数据
      * User: jackin.chen
-     * Date: 2021/2/27 下午6:20
+     * Date: 2021/10/19 7:43 下午
      * function: getSubjectPlayer
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @param Request $request
+     * @return \think\response\Json
      */
     public function getSubjectPlayer(Request $request){
         $prams  = $request->post();
@@ -101,17 +96,18 @@ class Vote extends WxsApi {
                 return $item->thumbs =  explode(',', $item->thumb);
             });
         }
-        return parent::response(!empty($data) ? current($data) :[],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2(!empty($data) ? current($data) :[]);
     }
+
 
 
     /**
      * Notes: 获取项目列表
      * User: jackin.chen
-     * Date: 2021/2/28 上午2:58
+     * Date: 2021/10/19 7:43 下午
      * function: getSubjectList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
+     * @return \think\response\Json
      */
     public function getSubjectList(Request $request){
 
@@ -125,20 +121,17 @@ class Vote extends WxsApi {
                 return $item->thumbs  =current(explode(',', $item->thumb));
             });
         }
-        return parent::response($result,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($result);
     }
 
 
     /**
-     * Notes: 获取
+     * Notes: 获取投票
      * User: jackin.chen
-     * Date: 2021/2/28 上午3:51
+     * Date: 2021/10/19 7:43 下午
      * function: getSubjectPlayerList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getSubjectPlayerList(Request $request){
 
@@ -155,31 +148,35 @@ class Vote extends WxsApi {
                 $item->thumb =  current($item->thumbs);
             });
         }
-        return parent::response(isset($data[0]) ? $data[0] : [],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2(isset($data[0]) ? $data[0] : []);
     }
 
 
     /**
      * Notes: 获取选手消息
      * User: jackin.chen
-     * Date: 2021/3/2 下午5:48
+     * Date: 2021/10/19 7:44 下午
      * function: getPlayerInfo
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getPlayerInfo(Request $request){
         $prams  = $request->post();
         $playerId = isset($prams['playerid']) ? ($prams['playerid']) : 0;
         $status = [1];
         $result = $this->playerModel->getPlayer($status,$playerId);
-        return parent::response($result,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($result);
     }
 
 
-
+    /**
+     * Notes: 提交投票
+     * User: jackin.chen
+     * Date: 2021/10/19 7:44 下午
+     * function: submitVote
+     * @param Request $request
+     * @return \think\response\Json
+     */
     public function submitVote(Request $request){
 
         $prams  = $request->post();
@@ -216,7 +213,7 @@ class Vote extends WxsApi {
             $icon = 'success';
             $this->title = ConstStatus::VOTE_SUCCESS;
         }while(0);
-        return parent::response(['icon'=>$icon,'title'=>$this->title],ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2(['icon'=>$icon,'title'=>$this->title]);
     }
 
     /**
@@ -239,17 +236,15 @@ class Vote extends WxsApi {
 
 
 
+
     /**
-     * Notes:每天统计次数
+     * Notes: 每天统计次数
      * User: jackin.chen
-     * Date: 2021/3/3 上午10:36
+     * Date: 2021/10/19 7:45 下午
      * function: perVoteLimit
      * @param $prams
      * @param $subject
-     * @return null|string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return string|null
      */
     private function perVoteLimit($prams,$subject){
 
@@ -284,14 +279,11 @@ class Vote extends WxsApi {
     /**
      * Notes: 累积投票限制
      * User: jackin.chen
-     * Date: 2021/3/3 上午10:37
+     * Date: 2021/10/19 7:45 下午
      * function: maxVoteLimit
      * @param $prams
      * @param $subject
-     * @return null|string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return string|null
      */
     private function maxVoteLimit($prams,$subject){
 
@@ -429,17 +421,14 @@ class Vote extends WxsApi {
 
     }
 
+
     /**
      * Notes: 获取报修列表
      * User: jackin.chen
-     * Date: 2020/6/26 下午11:49
+     * Date: 2021/10/19 7:46 下午
      * function: getRepairList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\TokenException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getRepairList(Request $request){
 
@@ -482,7 +471,7 @@ class Vote extends WxsApi {
                ];
            }
         }
-        return parent::response($repairList,ConstStatus::CODE_SUCCESS,ConstStatus::DESC_SUCCESS);
+        return self::json2($repairList);
     }
     
 }

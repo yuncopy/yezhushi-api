@@ -9,33 +9,34 @@
 
 namespace app\api\controller\v1;
 
-use app\api\library\ConstStatus;
+use app\api\validate\ArticleValidate;
 use app\common\controller\WxsApi;
 use think\Request;
 use app\common\model\Activity as ActivityModel;
+use app\common\model\Article as ArticleModel;
 
 
 class Activity extends WxsApi {
 
     private $activityModel = null;
+    private $articleModel = null;
     protected $allowMethod = array('get','post');
 
     public function __construct(Request $request) {
         parent::__construct($request);
         $this->activityModel = new ActivityModel();
+        $this->articleModel = new ArticleModel();
     }
+
 
 
     /**
      * Notes: 获取活动信息
      * User: jackin.chen
-     * Date: 2020/6/28 下午2:22
+     * Date: 2021/10/19 7:30 下午
      * function: getActivityList
      * @param Request $request
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function getActivityList(Request $request){
 
@@ -49,32 +50,26 @@ class Activity extends WxsApi {
         $post_id && $map['id']  = ['=',$post_id];
 
         $activity = $this->activityModel->getActivityList($map,$currPage,$pageSize);
-        return parent::response($activity ? $activity : [],ConstStatus::CODE_SUCCESS);
+        return self::json2($activity ? $activity : []);
     }
-
 
 
     /**
      * Notes: 获取文章详情
      * User: jackin.chen
-     * Date: 2020/6/21 下午3:45
+     * Date: 2021/10/19 7:33 下午
      * function: read
      * @param Request $request
      * @param $id
-     * @return \think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Redirect|\think\response\View|\think\response\Xml
-     * @throws \app\api\exception\ParameterException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return \think\response\Json
      */
     public function read(Request $request, $id) {
 
         //验证器
         (new ArticleValidate())->doValidate();
-
         //业务逻辑
         $result = $this->articleModel->getArticleInfo($id);
-        return parent::response($result,ConstStatus::CODE_SUCCESS);
+        return self::json2($result);
     }
 
 }
