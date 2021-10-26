@@ -46,7 +46,7 @@ class Slide extends Model {
                 ->field('name,description,link,image')
                 ->order('sort','asc')
                 ->limit(5)
-                ->select();
+                ->select()->toArray();
         }
         return $result;
     }
