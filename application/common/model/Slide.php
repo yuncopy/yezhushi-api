@@ -11,7 +11,6 @@ namespace app\common\model;
 
 
 use think\Model;
-use app\common\model\SlideCategory;
 
 class Slide extends Model {
     // 表名,不含前缀
@@ -26,16 +25,14 @@ class Slide extends Model {
         'delete' => array('id' => 'id')
     );
 
+
     /**
-     * Notes: 获取轮播图
+     * Notes:获取轮播图
      * User: jackin.chen
-     * Date: 2021/2/4 上午10:38
+     * Date: 2021/10/26 8:04 下午
      * function: getSlideList
-     * @param $cmCode 轮播标记
-     * @return array|false|\PDOStatement|string|\think\Collection
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @param string $cmCode
+     * @return array
      */
     public function getSlideList($cmCode = 'index-swiper') {
         $slideCategory = new SlideCategory();
